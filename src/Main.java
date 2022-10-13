@@ -20,6 +20,7 @@ public class Main {
         setFirsts();
         printFirsts();
         System.out.println("--------------------");
+        System.out.println("follows: ");
         for (SimboloGerador sg : simbolosGeradores) {
             getFollows(sg);
         }
@@ -38,7 +39,7 @@ public class Main {
                     for (SimboloProducao p : g.getProducoes()) {
                         msg = msg + " " + key + " -> " + p.getNome() + ",";
                     }
-                    System.out.println(key + " | " + msg + " | firsts: " + val);
+                    System.out.println(key + " | " + msg + " | firsts: " + val + " | follows: " + g.getFollows().toString());
                 }
             }
         }
@@ -70,6 +71,7 @@ public class Main {
     // }
 
     public static void printFirsts() {
+        System.out.println("firsts: ");
         HashMap<String, HashSet<Character>> dicFirst = getFirsts();
         for (Map.Entry<String, HashSet<Character>> entry : dicFirst.entrySet()) {
             String key = entry.getKey();
@@ -96,6 +98,7 @@ public class Main {
 
     private static boolean derivar(SimboloProducao p) {
         boolean achouAlgo = true;
+        // procura nos simbolos geradores aquele que possui um não terminal
         for (SimboloGerador s : simbolosGeradores) {
             if (p.getNome().substring(0, 1).equals(s.getNome())) {
                 HashSet<SimboloProducao> producoesAux = s.getProducoes();
