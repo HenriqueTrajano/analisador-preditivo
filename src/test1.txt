@@ -1,5 +1,5 @@
-E --> TY
+S --> TY
 Y --> xTY | E
 T --> FG
 G --> 2FG | E
-F --> 9Ek | a
+F --> 9Sk | a
