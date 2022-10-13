@@ -3,9 +3,12 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.ArrayList;
 
 public class Main {
   private static LinkedList<SimboloGerador> simbolosGeradores;
+  private static LinkedList<Character> naoTerminais = new LinkedList<>();
+  private static HashMap<String, HashMap<String, String>> table = new HashMap<>();
   public static void main(String[] args) {
 
     Scanner in = new Scanner(System.in);
@@ -16,13 +19,53 @@ public class Main {
     simbolosGeradores = leitor.leitorArquivo(filename);
     setFirsts();
     printFirsts();
+    printTable();
   }
 
-  public void regraPalavraVazia() {
-
+  public static void printTable() {
+    System.out.println("========= Tabela =========");
+    HashMap<String, HashSet<Character>> firsts = getFirsts();
+    for (Map.Entry<String, HashSet<Character>> entry : firsts.entrySet()) {
+      String key = entry.getKey();
+      HashSet<Character> val = entry.getValue();
+      for (SimboloGerador g : simbolosGeradores) {
+        if (g.getNome().equals(key)) {
+          String msg = "";
+          for (SimboloProducao p : g.getProducoes()) {
+            msg = msg + " " + key + " -> " + p.getNome() + ",";
+          }
+          System.out.println(key + " | " + msg + " | firsts: " + val);
+        } 
+      }
+    }
   }
+  
+
+  // private void regraPalavraVazia() {
+  //     LinkedList<SimboloProducao> aux = new LinkedList<>();
+  //     for (SimboloGerador sg : simbolosGeradores) {
+  //       HashSet<SimboloProducao> producoes = sg.getProducoes();
+  //       boolean hasPalavraVazia = false;
+  //       for (SimboloProducao sp : producoes) {
+  //         String first = sp.getNome().substring(0, 1);
+  //         boolean isTerminal = first.matches("[0-9]|[a-z]");
+  //         if (first.equals("E")) {
+  //           hasPalavraVazia = true;
+  //           // se houver palavra vazia na producao e o primeiro simbolo for nao terminal aplica a regra
+  //         } else if (!isTerminal && hasPalavraVazia) {
+  //           aux.add(sp);
+  //         } 
+  //       }
+  //     }
+      
+  //     for (SimboloProducao p : aux) {
+  //       if (p.getNome().length() > 1) {
+  //         p.
+  //       }
+  //     }
+  // }
+
   public static void printFirsts() {
-
     HashMap<String, HashSet<Character>> dicFirst = getFirsts();
     for (Map.Entry<String, HashSet<Character>> entry : dicFirst.entrySet()) {
       String key = entry.getKey();
@@ -77,6 +120,9 @@ public class Main {
           if (isTerminal) {
             sp.adicionarFirst(first.charAt(0));
             sg.adicionaFirst(first.charAt(0));
+            if (!first.equals("E")) {
+              naoTerminais.add(first.charAt(0));
+            }
           } else {
             aux.add(sp);
           }
