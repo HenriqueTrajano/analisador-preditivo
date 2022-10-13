@@ -3,7 +3,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.ArrayList;
 
 public class Main {
     private static LinkedList<SimboloGerador> simbolosGeradores;
