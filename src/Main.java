@@ -46,8 +46,6 @@ public class Main {
 
   public static void setFirsts() {
     LinkedList<SimboloProducao> aux = new LinkedList<>();
-    
-
       //pega os firsts faceis
       for (SimboloGerador sg : simbolosGeradores) {
         HashSet<SimboloProducao> producoes = sg.getProducoes();
@@ -58,7 +56,6 @@ public class Main {
             sp.adicionarFirst(first.charAt(0));
             sg.adicionaFirst(first.charAt(0));
           } else {
-            aux = new LinkedList<>();
             aux.add(sp);
           }
         }
