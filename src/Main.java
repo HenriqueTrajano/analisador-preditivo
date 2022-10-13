@@ -15,11 +15,11 @@ public class Main {
     LeitorGramatica leitor = new LeitorGramatica();
     simbolosGeradores = leitor.leitorArquivo(filename);
     setFirsts();
-    for (SimboloGerador sg : simbolosGeradores) {
-      sg.printFirsts();
-      System.out.println();
-    }
+    printFirsts();
+  }
 
+  public static void printFirsts() {
+    
     HashMap<String, HashSet<Character>> dicFirst = getFirsts();
     for (Map.Entry<String, HashSet<Character>> entry : dicFirst.entrySet()) {
       String key = entry.getKey();
@@ -27,7 +27,6 @@ public class Main {
       System.out.println(key + " -> " + val.toString());
     }
   }
-
   public static HashMap<String, HashSet<Character>> getFirsts() {
     HashMap<String, HashSet<Character>> dicFirst = new HashMap<>();
     for (SimboloGerador sg : simbolosGeradores) {
@@ -62,7 +61,6 @@ public class Main {
       }
 
       // derivar 
-      
       while (!aux.isEmpty()) {
         for (SimboloProducao p : aux) {
           for (SimboloGerador s : simbolosGeradores) {
