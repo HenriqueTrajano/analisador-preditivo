@@ -62,24 +62,24 @@ public class Main {
       }
 
       // derivar 
-      boolean achouAlgo = false;
+      
       while (!aux.isEmpty()) {
         for (SimboloProducao p : aux) {
-          System.out.println(p.getNome());
           for (SimboloGerador s : simbolosGeradores) {
             if (p.getNome().substring(0, 1).equals(s.getNome())) {
               HashSet<SimboloProducao> producoesAux = s.getProducoes();
+              boolean achouAlgo = true;
               for (SimboloProducao auxP : producoesAux) {
                 if (!auxP.getFirsts().isEmpty()) { // pode estar errado
                   for (Character first : auxP.getFirsts()) {
                     p.adicionarFirst(first);
-                    achouAlgo = true;
                   }
-                } 
+                } else {
+                  achouAlgo = false;
+                }
               }
               if (achouAlgo) {
                 aux.remove(p);
-                System.out.println("oi");
               }
               break;
             }
