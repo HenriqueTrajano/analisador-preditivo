@@ -18,8 +18,11 @@ public class Main {
     printFirsts();
   }
 
+  public void regraPalavraVazia() {
+
+  }
   public static void printFirsts() {
-    
+
     HashMap<String, HashSet<Character>> dicFirst = getFirsts();
     for (Map.Entry<String, HashSet<Character>> entry : dicFirst.entrySet()) {
       String key = entry.getKey();
@@ -43,6 +46,26 @@ public class Main {
     return dicFirst;
   }
 
+  private static boolean derivar(SimboloProducao p) {
+    boolean achouAlgo = true;
+    for (SimboloGerador s : simbolosGeradores) {
+      if (p.getNome().substring(0, 1).equals(s.getNome())) {
+        HashSet<SimboloProducao> producoesAux = s.getProducoes();
+        for (SimboloProducao auxP : producoesAux) {
+          if (!auxP.getFirsts().isEmpty()) { // pode estar errado
+            for (Character first : auxP.getFirsts()) {
+              p.adicionarFirst(first);
+            }
+          } else {
+            achouAlgo = false;
+          }
+        }
+        break;
+      }
+    }
+    return achouAlgo;
+  }
+
   public static void setFirsts() {
     LinkedList<SimboloProducao> aux = new LinkedList<>();
       //pega os firsts faceis
@@ -63,27 +86,9 @@ public class Main {
       // derivar 
       while (!aux.isEmpty()) {
         for (SimboloProducao p : aux) {
-          for (SimboloGerador s : simbolosGeradores) {
-            if (p.getNome().substring(0, 1).equals(s.getNome())) {
-              HashSet<SimboloProducao> producoesAux = s.getProducoes();
-              boolean achouAlgo = true;
-              for (SimboloProducao auxP : producoesAux) {
-                if (!auxP.getFirsts().isEmpty()) { // pode estar errado
-                  for (Character first : auxP.getFirsts()) {
-                    p.adicionarFirst(first);
-                  }
-                } else {
-                  achouAlgo = false;
-                }
-              }
-              if (achouAlgo) {
-                aux.remove(p);
-              }
-              break;
-            }
-          }
+          boolean derivou = derivar(p);
+          if (derivou) aux.remove(p);
         }
-        
       }
   }
 }
